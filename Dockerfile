@@ -1,18 +1,19 @@
 FROM ubuntu:trusty
 
-RUN apt-get update -y
+# Sets up the apt-cacher
+RUN echo 'Acquire::http { proxy "http://172.17.0.1:3142"; };' > /etc/apt/apt.conf.d/02proxy
+
+RUN apt-get update  -y
 RUN apt-get install -y --no-install-recommends  \
   build-essential \
-  vim             \
+  curl            \
+  git             \
+  golang          \
+  mosh            \
+  nmap            \
+  psmisc          \
   python          \
   python-pip      \
-  golang          \
-  nmap            \
-  tcpdump         \
-  wget            \
-  mosh
-
-# Clean up the dangling configurations and files
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-expose 22
+  screen          \
+  vim             \
+  wget
